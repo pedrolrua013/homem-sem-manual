@@ -116,8 +116,7 @@ button, a { transition: none !important; } img { display: block; max-width: 100%
 .heading-line-copy { position:absolute; left:0; right:0; display:block; font:inherit; line-height:inherit; }
 .faixa.ribbon-draw { position:relative; background:none; isolation:isolate; }
 .faixa.ribbon-draw::before { content:""; position:absolute; inset:0; z-index:-1; background:var(--copper-gradient); transform:scaleX(var(--ribbon-scale,0)); transform-origin:left; }
-.word-space { white-space:nowrap; }
-.word-reveal { display:inline-block; }
+.word-reveal { display:inline-block; white-space:nowrap; }
 .animated-strike { position:relative; text-decoration:none; }
 .strike-line { position:absolute; inset:50% 0 auto; height:1px; background:var(--cobre); transform-origin:left; pointer-events:none; }
 .media-floating { animation: book-float 6s ease-in-out infinite; animation-play-state:paused; }
