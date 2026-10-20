@@ -119,6 +119,27 @@ function enhance(reduced: boolean) {
   }
   select(".hero h1").forEach(el => heading(el, BEAT.headline, true));
   select(".hero .eyebrow").forEach(el => reveal(el, BEAT.tag, "button", true));
+  // Count-up the stat numbers inside the hero eyebrow as it fades in.
+  if (!reduced) {
+    const eyebrow = select(".hero .eyebrow")[0];
+    if (eyebrow) {
+      const orig = eyebrow.textContent ?? "";
+      eyebrow.innerHTML = orig.replace(/(\d[\d.]*)/g, '<span data-n="$1">$1</span>');
+      setTimeout(() => {
+        eyebrow.querySelectorAll<HTMLElement>("[data-n]").forEach(span => {
+          const raw = span.dataset.n ?? "0";
+          const target = Number(raw.replace(/\./g, ""));
+          if (!target) return;
+          const hasSep = raw.includes(".");
+          const ctrl = animate(0, target, { duration: DUR_M, ease: EASE,
+            onUpdate: n => { span.textContent = hasSep ? Math.round(n).toLocaleString("pt-BR") : String(Math.round(n)); }
+          });
+          active.add(ctrl);
+        });
+      }, BEAT.tag * 1000);
+      cleanups.push(() => { eyebrow.textContent = orig; });
+    }
+  }
   select(".hero-description").forEach(el => reveal(el, BEAT.subtitle, "paragraph", true));
   select(".hero .cta-wrap").forEach(el => reveal(el, BEAT.cta, "button", true));
   select(".hero-price").forEach(el => reveal(el, BEAT.price, "paragraph", true));
