@@ -110,6 +110,13 @@ function enhance(reduced: boolean) {
     const update = () => header.classList.toggle("header-scrolled", window.scrollY > 80);
     update(); window.addEventListener("scroll", update, { passive: true }); cleanups.push(() => { window.removeEventListener("scroll", update); header.classList.remove("header-scrolled"); });
   }
+  if (!reduced) {
+    const bar = document.createElement("div");
+    bar.style.cssText = "position:fixed;top:0;left:0;width:100%;height:2px;z-index:100;background:linear-gradient(90deg,var(--cobre),#FFB000);transform-origin:left;transform:scaleX(0);pointer-events:none;";
+    document.body.prepend(bar);
+    const stop = scroll(p => { bar.style.transform = `scaleX(${p})`; });
+    cleanups.push(() => { stop(); bar.remove(); });
+  }
   select(".hero h1").forEach(el => heading(el, BEAT.headline, true));
   select(".hero .eyebrow").forEach(el => reveal(el, BEAT.tag, "button", true));
   select(".hero-description").forEach(el => reveal(el, BEAT.subtitle, "paragraph", true));
@@ -164,6 +171,7 @@ function enhance(reduced: boolean) {
   select(".sample-cta > p").forEach(el => { remember(el); el.style.opacity = "0"; watch(el, () => run(el, reduced ? { opacity: [0, 1] } : { opacity: [0, 1], scale: [0.9, 1] }, DUR_M)); });
   select(".audience-grid > div").forEach((el, i) => { remember(el); el.style.opacity = "0"; watch(el, () => run(el, reduced ? { opacity: [0, 1] } : { opacity: [0, 1], x: [distance(i ? 24 : -24), 0] }, DUR_M)); });
   select(".dash-list").forEach(list => Array.from(list.querySelectorAll<HTMLElement>("li")).forEach((el, i) => reveal(el, i * (list.closest(".offer-card") ? BEAT.paragraph : STAGGER))));
+  select(".trust-row span").forEach((el, i) => reveal(el, i * BEAT.paragraph, "button"));
   select(".offer-card").forEach(el => reveal(el, 0, "card"));
   select(".offer-price del").forEach(el => { reveal(el); strike(el, BEAT.signature); });
   select(".offer-price strong").forEach(el => { remember(el); el.style.opacity = "0"; watch(el, () => { el.classList.add("price-lit"); run(el, reduced ? { opacity: [0, 1] } : { opacity: [0, 1], scale: [1.2, 1] }, DUR_L, BEAT.signature + DUR_S); }); cleanups.push(() => el.classList.remove("price-lit")); });
