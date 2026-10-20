@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { TopBar, Header, Hero, Phrase, Mirror, Pain, TurningPoint, HowItWorks, Contents, FreeSample, BookQuotes, Audience, Offer, Guarantee, FAQ, FinalCTA, Footer } from "@/components/manual/sections";
+import { TopBar, Header, Hero, Phrase, Mirror, Pain, TurningPoint, MarcusQuote, HowItWorks, Contents, FreeSample, BookQuotes, Audience, Offer, Guarantee, FAQ, FinalCTA, Footer } from "@/components/manual/sections";
 import { MobileBar, ProofPopup } from "@/components/manual/overlays";
 import { Pixels } from "@/components/manual/checkout";
 import shareImage from "@/assets/manual-share.webp.asset.json";
@@ -17,4 +17,4 @@ export const Route = createFileRoute("/")({
   ] }),
   component: Index,
 });
-function Index() { return <><TopBar /><Header /><main><Hero /><Phrase /><Mirror /><Pain /><TurningPoint /><HowItWorks /><Contents /><FreeSample /><BookQuotes /><Audience /><Offer /><Guarantee /><FAQ /><FinalCTA /></main><Footer /><MobileBar /><ProofPopup /><Pixels /><PageMotion /></>; }
+function Index() { return <><TopBar /><Header /><main><Hero /><Phrase /><Mirror /><Pain /><TurningPoint /><MarcusQuote /><HowItWorks /><Contents /><FreeSample /><BookQuotes /><Audience /><Offer /><Guarantee /><FAQ /><FinalCTA /></main><Footer /><MobileBar /><ProofPopup /><Pixels /><PageMotion /></>; }
