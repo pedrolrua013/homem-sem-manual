@@ -225,6 +225,23 @@ function enhance(reduced: boolean) {
     }
   }
 
+  // One-shot scale pulse on the final CTA after its reveal settles, drawing
+  // the eye to the conversion action at the bottom of the reading journey.
+  if (!reduced) {
+    const finalCta = select(".final-section .checkout-button")[0];
+    if (finalCta) {
+      const pulsObs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) {
+          const ctrl = animate(finalCta, { scale: [1, 1.05, 1] },
+            { duration: 0.6, delay: DUR_L + BEAT.emphasis + DUR_M + 0.1, ease: EASE });
+          active.add(ctrl); pulsObs.disconnect();
+        }
+      }, { threshold: 0.3 });
+      pulsObs.observe(finalCta);
+      cleanups.push(() => pulsObs.disconnect());
+    }
+  }
+
   // Use the existing media boxes as an entry layer and the image as a scroll/
   // pointer layer, so independent transforms never fight over the same node.
   select("[data-parallax]").forEach(el => {
