@@ -19,4 +19,7 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // netlify preset: use Netlify Functions for SSR. Falls back to cloudflare-module
+  // inside Lovable. NITRO_PRESET env var in Netlify CI overrides automatically.
+  nitro: { preset: "netlify" },
 });
