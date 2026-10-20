@@ -181,6 +181,28 @@ function enhance(reduced: boolean) {
   select(".cta-wrap").forEach(el => { if (!el.closest(".mobile-bar")) reveal(el, el.closest(".offer-card") ? DUR_L : el.closest(".final-section") ? DUR_L + BEAT.emphasis : BEAT.signature, "button"); });
   select(".section-footnote, .guarantee-grid .prose, .offer-card blockquote, .page-number").forEach(el => reveal(el));
   select(".manual-accordion .accordion-item").forEach((el, i) => reveal(el, i * BEAT.paragraph, "button"));
+  // Activate the paused metal-sweep shimmer on CTA buttons when they enter viewport.
+  if (!reduced) {
+    select(".checkout-button").forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("motion-visible");
+      else watch(el as HTMLElement, () => el.classList.add("motion-visible"));
+      cleanups.push(() => el.classList.remove("motion-visible"));
+    });
+  }
+  // On mobile: slide the sticky CTA bar up the first time the hero section exits the viewport.
+  if (mobile && !reduced) {
+    const mobileBar = select(".mobile-bar")[0];
+    const heroEl = select(".hero")[0];
+    if (mobileBar && heroEl) {
+      remember(mobileBar); mobileBar.style.transform = "translateY(110%)";
+      const heroObs = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) { run(mobileBar, { y: ["110%", "0%"] }, DUR_S); heroObs.disconnect(); }
+      }, { threshold: 0 });
+      heroObs.observe(heroEl);
+      cleanups.push(() => heroObs.disconnect());
+    }
+  }
 
   // Use the existing media boxes as an entry layer and the image as a scroll/
   // pointer layer, so independent transforms never fight over the same node.
