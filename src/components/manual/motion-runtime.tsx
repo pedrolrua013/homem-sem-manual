@@ -172,6 +172,7 @@ function enhance(reduced: boolean) {
   select(".signature").forEach(el => reveal(el, BEAT.letter * 4 + BEAT.emphasis));
   select(".cta-wrap").forEach(el => { if (!el.closest(".mobile-bar")) reveal(el, el.closest(".offer-card") ? DUR_L : el.closest(".final-section") ? DUR_L + BEAT.emphasis : BEAT.signature, "button"); });
   select(".section-footnote, .guarantee-grid .prose, .offer-card blockquote, .page-number").forEach(el => reveal(el));
+  select(".manual-accordion .accordion-item").forEach((el, i) => reveal(el, i * BEAT.paragraph, "button"));
 
   // Use the existing media boxes as an entry layer and the image as a scroll/
   // pointer layer, so independent transforms never fight over the same node.
